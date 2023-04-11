@@ -1,21 +1,25 @@
-// Визначити, чи список містить пару елементів (не обов’язково сусідніх)
-//з однаковими значеннями інформаційного поля.
+// Г‚ГЁГ§Г­Г Г·ГЁГІГЁ, Г·ГЁ Г±ГЇГЁГ±Г®ГЄ Г¬ВіГ±ГІГЁГІГј ГЇГ Г°Гі ГҐГ«ГҐГ¬ГҐГ­ГІВіГў (Г­ГҐ Г®ГЎГ®ГўвЂ™ГїГ§ГЄГ®ГўГ® Г±ГіГ±ВіГ¤Г­ВіГµ)
+//Г§ Г®Г¤Г­Г ГЄГ®ГўГЁГ¬ГЁ Г§Г­Г Г·ГҐГ­Г­ГїГ¬ГЁ ВіГ­ГґГ®Г°Г¬Г Г¶ВіГ©Г­Г®ГЈГ® ГЇГ®Г«Гї.
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
-void printList(vector<int>& list) {
+struct ListItem {
+    int value;
+};
+
+void printList(vector<ListItem>& list) {
     for (int i = 0; i < list.size(); i++) {
-        cout << list[i] << " ";
+        cout << list[i].value << " ";
     }
     cout << endl;
 }
 
-bool hasDuplicate(vector<int>& list) {
+bool hasDuplicate(vector<ListItem>& list) {
     for (int i = 0; i < list.size() - 1; i++) {
         for (int j = i + 1; j < list.size(); j++) {
-            if (list[i] == list[j]) {
+            if (list[i].value == list[j].value) {
                 return true;
             }
         }
@@ -24,17 +28,17 @@ bool hasDuplicate(vector<int>& list) {
 }
 
 int main() {
-    vector<int> myList;
+    vector<ListItem> myList;
 
     int n;
     cout << "Enter the number of elements in the list: ";
     cin >> n;
 
     for (int i = 0; i < n; i++) {
-        int num;
+        ListItem item;
         cout << "Enter element " << i + 1 << ": ";
-        cin >> num;
-        myList.push_back(num);
+        cin >> item.value;
+        myList.push_back(item);
     }
 
     printList(myList);
