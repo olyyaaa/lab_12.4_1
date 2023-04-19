@@ -1,25 +1,34 @@
 // Âèçíà÷èòè, ÷è ñïèñîê ì³ñòèòü ïàðó åëåìåíò³â (íå îáîâ’ÿçêîâî ñóñ³äí³õ)
 //ç îäíàêîâèìè çíà÷åííÿìè ³íôîðìàö³éíîãî ïîëÿ.
 #include <iostream>
-#include <vector>
-
 using namespace std;
 
-struct ListItem {
-    int value;
+struct Elem {
+    int data;
+    Elem* next;
 };
 
-void printList(vector<ListItem>& list) {
-    for (int i = 0; i < list.size(); i++) {
-        cout << list[i].value << " ";
+void printList(Elem* head) {
+    if (head == nullptr) {
+        return;
     }
+
+    Elem* current = head;
+    do {
+        cout << current->data << " ";
+        current = current->next;
+    } while (current != head);
     cout << endl;
 }
 
-bool hasDuplicate(vector<ListItem>& list) {
-    for (int i = 0; i < list.size() - 1; i++) {
-        for (int j = i + 1; j < list.size(); j++) {
-            if (list[i].value == list[j].value) {
+bool hasDuplicate(Elem* head) {
+    if (head == nullptr) {
+        return false;
+    }
+
+    for (Elem* i = head; i->next != head; i = i->next) {
+        for (Elem* j = i->next; j != head; j = j->next) {
+            if (i->data == j->data) {
                 return true;
             }
         }
@@ -28,27 +37,35 @@ bool hasDuplicate(vector<ListItem>& list) {
 }
 
 int main() {
-    vector<ListItem> myList;
-
     int n;
-    cout << "Enter the number of elements in the list: ";
+    cout << "Enter numbers of elements: ";
     cin >> n;
 
+    Elem* head = nullptr;
+    Elem* tail = nullptr;
+
     for (int i = 0; i < n; i++) {
-        ListItem item;
+        int value;
         cout << "Enter element " << i + 1 << ": ";
-        cin >> item.value;
-        myList.push_back(item);
+        cin >> value;
+
+        Elem* newElem = new Elem{ value, nullptr };
+        if (head == nullptr) {
+            head = newElem;
+            tail = newElem;
+            tail->next = head;
+        }
+        else {
+            tail->next = newElem;
+            tail = newElem;
+            tail->next = head;
+        }
     }
 
-    printList(myList);
+    cout << "List witout changes: ";
+    printList(head);
 
-    if (hasDuplicate(myList)) {
-        cout << "The list has a duplicate." << endl;
-    }
-    else {
-        cout << "The list does not have a duplicate." << endl;
-    }
+    cout << "Has a double number: " << boolalpha << hasDuplicate(head) << endl;
 
     return 0;
 }
